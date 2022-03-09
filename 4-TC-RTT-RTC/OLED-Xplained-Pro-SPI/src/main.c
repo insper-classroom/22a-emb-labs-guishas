@@ -248,12 +248,32 @@ int main (void)
   
 	//gfx_mono_draw_filled_circle(20, 16, 16, GFX_PIXEL_SET, GFX_WHOLE);
 	//gfx_mono_draw_string("mundo", 50,16, &sysfont);
+	char hora[128];
+	char min[128];
+	char sec[128];
+	
+	uint32_t current_hour_draw, current_min_draw, current_sec_draw;
 	
 	TC_init(TC0, ID_TC1, 1, 4);
 	tc_start(TC0, 1);
 	RTT_init(0.25, 0, RTT_MR_RTTINCIEN);
 
 	while (1) {
+		rtc_get_time(RTC, &current_hour_draw, &current_min_draw, &current_sec_draw);
+		
+		sprintf(hora, "%d", current_hour_draw);
+		sprintf(min, "%d", current_min_draw);
+		if (current_sec_draw < 10) {
+			sprintf(sec, "0%d", current_sec_draw);
+		} else {
+			sprintf(sec, "%d", current_sec_draw);
+		}
+		
+		gfx_mono_draw_string(hora, 10, 0, &sysfont);
+		gfx_mono_draw_string(":", 30, 0, &sysfont);
+		gfx_mono_draw_string(min, 40, 0, &sysfont);
+		gfx_mono_draw_string(":", 60, 0, &sysfont);
+		gfx_mono_draw_string(sec, 70, 0, &sysfont);
 		
 		if (flag_rtc_alarm) {
 			pio_clear(LED3_EXT1_PIO, LED3_EXT1_PIO_IDX_MASK);
@@ -262,6 +282,6 @@ int main (void)
 			flag_rtc_alarm = 0;
 		}
 		
-		pmc_sleep(SAM_PM_SMODE_SLEEP_WFI);
+		//pmc_sleep(SAM_PM_SMODE_SLEEP_WFI);
 	}
 }
