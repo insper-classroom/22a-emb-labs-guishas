@@ -55,7 +55,51 @@ extern void vApplicationMallocFailedHook(void) {
 /* lvgl                                                                 */
 /************************************************************************/
 
-static void event_handler(lv_event_t * e) {
+static void power_handler(lv_event_t * e) {
+	lv_event_code_t code = lv_event_get_code(e);
+
+	if(code == LV_EVENT_CLICKED) {
+		LV_LOG_USER("Clicked");
+	}
+	else if(code == LV_EVENT_VALUE_CHANGED) {
+		LV_LOG_USER("Toggled");
+	}
+}
+
+static void menu_handler(lv_event_t * e) {
+	lv_event_code_t code = lv_event_get_code(e);
+
+	if(code == LV_EVENT_CLICKED) {
+		LV_LOG_USER("Clicked");
+	}
+	else if(code == LV_EVENT_VALUE_CHANGED) {
+		LV_LOG_USER("Toggled");
+	}
+}
+
+static void clock_handler(lv_event_t * e) {
+	lv_event_code_t code = lv_event_get_code(e);
+
+	if(code == LV_EVENT_CLICKED) {
+		LV_LOG_USER("Clicked");
+	}
+	else if(code == LV_EVENT_VALUE_CHANGED) {
+		LV_LOG_USER("Toggled");
+	}
+}
+
+static void up_handler(lv_event_t * e) {
+	lv_event_code_t code = lv_event_get_code(e);
+
+	if(code == LV_EVENT_CLICKED) {
+		LV_LOG_USER("Clicked");
+	}
+	else if(code == LV_EVENT_VALUE_CHANGED) {
+		LV_LOG_USER("Toggled");
+	}
+}
+
+static void down_handler(lv_event_t * e) {
 	lv_event_code_t code = lv_event_get_code(e);
 
 	if(code == LV_EVENT_CLICKED) {
@@ -74,14 +118,14 @@ void lv_termostato(void) {
 	lv_style_set_border_width(&style, 5);
 	
     lv_obj_t * btn1 = lv_btn_create(lv_scr_act());
-    lv_obj_add_event_cb(btn1, event_handler, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(btn1, power_handler, LV_EVENT_ALL, NULL);
     lv_obj_align(btn1, LV_ALIGN_BOTTOM_LEFT, 20, -32);
     lv_obj_add_style(btn1, &style, 0);
     lv_obj_set_width(btn1, 25);
     lv_obj_set_height(btn1, 25);
 	
 	lv_obj_t * btn2 = lv_btn_create(lv_scr_act());
-	lv_obj_add_event_cb(btn2, event_handler, LV_EVENT_ALL, NULL);
+	lv_obj_add_event_cb(btn2, menu_handler, LV_EVENT_ALL, NULL);
 	lv_obj_align(btn2, LV_ALIGN_BOTTOM_LEFT, 70, -32);
 	lv_obj_add_style(btn2, &style, 0);
 	lv_obj_set_width(btn2, 25);
@@ -92,8 +136,8 @@ void lv_termostato(void) {
 	lv_obj_center(labelBtn2);
 	
 	lv_obj_t * btn3 = lv_btn_create(lv_scr_act());
-	lv_obj_add_event_cb(btn3, event_handler, LV_EVENT_ALL, NULL);
-	lv_obj_align(btn3, LV_ALIGN_BOTTOM_LEFT, 130, -32);
+	lv_obj_add_event_cb(btn3, clock_handler, LV_EVENT_ALL, NULL);
+	lv_obj_align(btn3, LV_ALIGN_BOTTOM_LEFT, 120, -32);
 	lv_obj_add_style(btn3, &style, 0);
 	lv_obj_set_width(btn3, 25);
 	lv_obj_set_height(btn3, 25);
@@ -101,6 +145,28 @@ void lv_termostato(void) {
 	lv_obj_t * labelBtn3 = lv_label_create(btn3);
 	lv_label_set_text(labelBtn3, LV_SYMBOL_REFRESH);
 	lv_obj_center(labelBtn3);
+	
+	lv_obj_t * btn4 = lv_btn_create(lv_scr_act());
+	lv_obj_add_event_cb(btn4, up_handler, LV_EVENT_ALL, NULL);
+	lv_obj_align(btn4, LV_ALIGN_BOTTOM_LEFT, 225, -32);
+	lv_obj_add_style(btn4, &style, 0);
+	lv_obj_set_width(btn4, 25);
+	lv_obj_set_height(btn4, 25);
+	
+	lv_obj_t * labelBtn4 = lv_label_create(btn4);
+	lv_label_set_text(labelBtn4, LV_SYMBOL_UP);
+	lv_obj_center(labelBtn4);
+	
+	lv_obj_t * btn5 = lv_btn_create(lv_scr_act());
+	lv_obj_add_event_cb(btn5, down_handler, LV_EVENT_ALL, NULL);
+	lv_obj_align(btn5, LV_ALIGN_BOTTOM_LEFT, 270, -32);
+	lv_obj_add_style(btn5, &style, 0);
+	lv_obj_set_width(btn5, 25);
+	lv_obj_set_height(btn5, 25);
+	
+	lv_obj_t * labelBtn5 = lv_label_create(btn5);
+	lv_label_set_text(labelBtn5, LV_SYMBOL_DOWN);
+	lv_obj_center(labelBtn5);
 
 	labelBtn1 = lv_label_create(btn1);
 	lv_label_set_text(labelBtn1, LV_SYMBOL_POWER);
@@ -126,6 +192,34 @@ void lv_termostato(void) {
 	lv_obj_align(labelBarra3, LV_ALIGN_BOTTOM_LEFT, 100, -30);
 	lv_obj_set_width(labelBarra3, 30);
 	lv_obj_set_height(labelBarra3, 30);
+	
+	lv_obj_t * labelBarra4 = lv_label_create(lv_scr_act());
+	lv_label_set_text(labelBarra4, " ]");
+	lv_obj_center(labelBarra4);
+	lv_obj_align(labelBarra4, LV_ALIGN_BOTTOM_LEFT, 150, -30);
+	lv_obj_set_width(labelBarra4, 30);
+	lv_obj_set_height(labelBarra4, 30);
+	
+	lv_obj_t * labelBarra5 = lv_label_create(lv_scr_act());
+	lv_label_set_text(labelBarra5, "[ ");
+	lv_obj_center(labelBarra5);
+	lv_obj_align(labelBarra5, LV_ALIGN_BOTTOM_LEFT, 210, -30);
+	lv_obj_set_width(labelBarra5, 30);
+	lv_obj_set_height(labelBarra5, 30);
+	
+	lv_obj_t * labelBarra6 = lv_label_create(lv_scr_act());
+	lv_label_set_text(labelBarra6, " | ");
+	lv_obj_center(labelBarra6);
+	lv_obj_align(labelBarra6, LV_ALIGN_BOTTOM_LEFT, 250, -30);
+	lv_obj_set_width(labelBarra6, 30);
+	lv_obj_set_height(labelBarra6, 30);
+	
+	lv_obj_t * labelBarra7 = lv_label_create(lv_scr_act());
+	lv_label_set_text(labelBarra7, " ]");
+	lv_obj_center(labelBarra7);
+	lv_obj_align(labelBarra7, LV_ALIGN_BOTTOM_LEFT, 295, -30);
+	lv_obj_set_width(labelBarra7, 30);
+	lv_obj_set_height(labelBarra7, 30);
 }
 
 /************************************************************************/
